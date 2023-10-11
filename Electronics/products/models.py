@@ -3,7 +3,7 @@ from django.db import models
 
 class Product(models.Model):
     name = models.CharField(max_length=50)
-    date = models.DateTimeField()
+    date = models.DateField()
     product_model = models.CharField(max_length=50)
 
     def __str__(self):
