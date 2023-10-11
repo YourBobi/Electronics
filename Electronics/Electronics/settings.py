@@ -23,6 +23,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "products",
     "companies_details",
+    "companies",
     #
     "djmoney",
     "django_countries",
