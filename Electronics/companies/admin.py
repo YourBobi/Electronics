@@ -4,4 +4,4 @@ from .models import Company
 
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
-    pass
+    list_display = [field.name for field in Company._meta.fields]
