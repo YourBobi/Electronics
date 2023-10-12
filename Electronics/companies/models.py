@@ -11,7 +11,6 @@ class Company(models.Model):
         ("LRC", "Large retail chain"),
         ("IE", "Individual entrepreneur"),
     ]
-    owner = models.ForeignKey(User, related_name="companies", on_delete=models.CASCADE)
     level = models.IntegerField()
     type = models.CharField(choices=COMPANY_TYPE, max_length=50)
     name = models.CharField(max_length=50)
@@ -20,6 +19,7 @@ class Company(models.Model):
     )
     creation_date = models.DateTimeField(auto_now_add=True)
 
+    owner = models.ManyToManyField(User, related_name="companies", editable=False)
     product_id = models.ManyToManyField(
         "products.Product", verbose_name="Products ID", blank=True
     )
@@ -32,6 +32,11 @@ class Company(models.Model):
     contact_id = models.OneToOneField(
         "companies_details.Contacts", on_delete=models.CASCADE
     )
+
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.added_by = request.user
+        super().save_model(request, obj, form, change)
 
     def __str__(self):
         return f'<"id": "{self.id}", "name":"{self.name}">'
