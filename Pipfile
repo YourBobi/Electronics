@@ -8,6 +8,7 @@ django = "*"
 python-dotenv = "*"
 django-money = "*"
 django-countries = "*"
+djangorestframework = "*"
 
 [dev-packages]
 
