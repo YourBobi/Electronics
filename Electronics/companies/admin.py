@@ -19,6 +19,7 @@ class CompanyAdmin(admin.ModelAdmin):
         "view_company_city",
     ]
     list_filter = (ContactsCityFilter,)
+    actions = ["clear_arrears"]
 
     def view_provider_links(self, obj):
         if obj.provider_id:
@@ -36,6 +37,10 @@ class CompanyAdmin(admin.ModelAdmin):
     def view_company_city(self, obj):
         if obj.contact_id:
             return obj.contact_id.address_id.city
+
+    @admin.action(description="Clear arrears")
+    def clear_arrears(self, request, queryset):
+        queryset.update(arrears=0)
 
     view_provider_links.short_description = "Providers"
     view_company_city.short_description = "Cities"
