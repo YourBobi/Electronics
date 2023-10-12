@@ -1,4 +1,6 @@
 from django.contrib import admin
+
+from .custom_filters import ContactsCityFilter
 from .models import Company
 
 from django.urls import reverse
@@ -14,7 +16,9 @@ class CompanyAdmin(admin.ModelAdmin):
         "arrears",
         "creation_date",
         "view_provider_links",
+        "view_company_city",
     ]
+    list_filter = (ContactsCityFilter,)
 
     def view_provider_links(self, obj):
         if obj.provider_id:
@@ -28,3 +32,10 @@ class CompanyAdmin(admin.ModelAdmin):
                 obj.provider_id.name,
                 obj.provider_id.id,
             )
+
+    def view_company_city(self, obj):
+        if obj.contact_id:
+            return obj.contact_id.address_id.city
+
+    view_provider_links.short_description = "Providers"
+    view_company_city.short_description = "Cities"
