@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     #
     "djmoney",
     "django_countries",
+    "django_filters",
     "rest_framework",
     #
     "django.contrib.admin",
