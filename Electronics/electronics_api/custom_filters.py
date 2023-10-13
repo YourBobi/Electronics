@@ -12,6 +12,7 @@ class CompanyFilter(FilterSet):
         method="filter_company_debt",
         # widget=django_filters.widgets.LinkWidget,
     )
+    id = AllValuesFilter(field_name="product_id", label="Product ID")
 
     def filter_company_debt(self, queryset, name, value):
         average_debt = mean([company.arrears.amount for company in queryset])
