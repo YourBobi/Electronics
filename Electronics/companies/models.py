@@ -33,10 +33,8 @@ class Company(models.Model):
         "companies_details.Contacts", on_delete=models.CASCADE
     )
 
-    def save_model(self, request, obj, form, change):
-        if not obj.pk:
-            obj.added_by = request.user
-        super().save_model(request, obj, form, change)
+    def save_user(self, user):
+        self.owner.add(user)
 
     def __str__(self):
         return f'<"id": "{self.id}", "name":"{self.name}">'
