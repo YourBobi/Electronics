@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from companies.models import Company
+from products.models import Product
 
 # from companies_details.models import Mail, Contacts, Address
 #
@@ -42,4 +43,20 @@ class CompanySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Company
-        fields = "__all__"
+        fields = [
+            "url",
+            "level",
+            "type",
+            "name",
+            "arrears",
+            "provider_id",
+            "contact_id",
+            "product_id",
+            "staff_id",
+        ]
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ["url", "name", "date", "product_model"]
