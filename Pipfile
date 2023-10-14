@@ -10,6 +10,7 @@ django-money = "*"
 django-countries = "*"
 djangorestframework = "*"
 django-filter = "*"
+celery = "*"
 
 [dev-packages]
 
