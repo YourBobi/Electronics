@@ -11,6 +11,8 @@ django-countries = "*"
 djangorestframework = "*"
 django-filter = "*"
 celery = "*"
+redis = "*"
+async-timeout = "*"
 
 [dev-packages]
 

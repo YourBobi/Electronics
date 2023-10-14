@@ -5,6 +5,7 @@ from .models import Company
 
 from django.urls import reverse
 from django.utils.html import format_html
+from .tasks import clear_debt
 
 
 @admin.register(Company)
@@ -40,7 +41,11 @@ class CompanyAdmin(admin.ModelAdmin):
 
     @admin.action(description="Clear arrears")
     def clear_arrears(self, request, queryset):
-        queryset.update(arrears=0)
+        if len(queryset) > 0:
+            for company in queryset:
+                clear_debt.delay(company.id)
+        else:
+            queryset.update(arrears=0)
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)

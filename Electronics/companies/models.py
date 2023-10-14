@@ -15,7 +15,7 @@ class Company(models.Model):
     type = models.CharField(choices=COMPANY_TYPE, max_length=50)
     name = models.CharField(max_length=50)
     arrears = MoneyField(
-        max_digits=14, decimal_places=2, default_currency="USD", blank=True, null=True
+        max_digits=14, decimal_places=2, default_currency="USD", blank=True, default=0
     )
     creation_date = models.DateTimeField(auto_now_add=True)
 

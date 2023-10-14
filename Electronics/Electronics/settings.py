@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "django_filters",
     "rest_framework",
     "celery",
+    "redis",
     #
     "django.contrib.admin",
     "django.contrib.auth",
