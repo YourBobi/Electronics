@@ -42,5 +42,9 @@ class CompanyAdmin(admin.ModelAdmin):
     def clear_arrears(self, request, queryset):
         queryset.update(arrears=0)
 
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        obj.save_user(request.user)
+
     view_provider_links.short_description = "Providers"
     view_company_city.short_description = "Cities"
