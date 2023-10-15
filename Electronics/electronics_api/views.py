@@ -17,7 +17,6 @@ from .custom_filters import CompanyFilter
 from .tasks import send_company_qr_email
 
 
-
 @api_view(["GET"])
 def api_root(request, format=None):
     response = Response(

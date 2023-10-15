@@ -53,10 +53,9 @@ class CompanyAdmin(admin.ModelAdmin):
         obj.save_user(request.user)
 
     def copy_email(self, obj):
-        email = obj.contact_id.mail_id
         return format_html(
             "<a class=\"button\" onclick=\"navigator.clipboard.writeText('{0}');alert('Скопировано');\">{0}</a>",
-            email,
+            obj.contact_id.mail_id,
         )
 
     view_provider_links.short_description = "Providers"
