@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from datetime import datetime
 
 from companies.models import Company
 from products.models import Product
@@ -41,6 +42,9 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class CompanySerializer(serializers.ModelSerializer):
     contacts = ContactsSerializer(source="contact_id", read_only=True)
     arrears_usd = serializers.ReadOnlyField(source="arrears.amount")
+    company_name = serializers.CharField(
+        source="name", max_length=50, label="Company name"
+    )
 
     def create(self, validated_data):
         validated_data = {k: v for k, v in validated_data.items() if v}
@@ -54,7 +58,7 @@ class CompanySerializer(serializers.ModelSerializer):
             "url",
             "level",
             "type",
-            "name",
+            "company_name",
             "arrears_usd",
             "provider_id",
             "contact_id",
@@ -65,6 +69,17 @@ class CompanySerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    product_name = serializers.CharField(
+        source="name", max_length=25, label="Product name"
+    )
+
+    def validate_date(self, date):
+        if date > datetime.now().date():
+            raise serializers.ValidationError(
+                "Дата продукта не должна превышать сегодняшний день"
+            )
+        return date
+
     class Meta:
         model = Product
-        fields = ["url", "name", "date", "product_model"]
+        fields = ["url", "product_name", "date", "product_model"]
