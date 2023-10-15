@@ -13,6 +13,8 @@ django-filter = "*"
 celery = "*"
 redis = "*"
 async-timeout = "*"
+qrcode = "*"
+pillow = "*"
 
 [dev-packages]
 
