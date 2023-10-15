@@ -18,6 +18,7 @@ class CompanyAdmin(admin.ModelAdmin):
         "creation_date",
         "view_provider_links",
         "view_company_city",
+        "copy_email",
     ]
     list_filter = (ContactsCityFilter,)
     actions = ["clear_arrears"]
@@ -50,6 +51,13 @@ class CompanyAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
         obj.save_user(request.user)
+
+    def copy_email(self, obj):
+        email = obj.contact_id.mail_id
+        return format_html(
+            "<a class=\"button\" onclick=\"navigator.clipboard.writeText('{0}');alert('Скопировано');\">{0}</a>",
+            email,
+        )
 
     view_provider_links.short_description = "Providers"
     view_company_city.short_description = "Cities"
