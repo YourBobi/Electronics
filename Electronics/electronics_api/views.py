@@ -23,6 +23,15 @@ def api_root(request, format=None):
         {
             "companies": reverse("company-list", request=request, format=format),
             "products": reverse("product-list", request=request, format=format),
+            "token urls": {
+                "token_obtain_pair": reverse(
+                    "token_obtain_pair", request=request, format=format
+                ),
+                "token_verify": reverse("token_verify", request=request, format=format),
+                "token_refresh": reverse(
+                    "token_refresh", request=request, format=format
+                ),
+            },
         }
     )
     if request.user.is_superuser:
