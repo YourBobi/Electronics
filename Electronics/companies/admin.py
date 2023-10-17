@@ -42,7 +42,7 @@ class CompanyAdmin(admin.ModelAdmin):
 
     @admin.action(description="Clear arrears")
     def clear_arrears(self, request, queryset):
-        if len(queryset) > 0:
+        if len(queryset) > 20:
             for company in queryset:
                 clear_debt.delay(company.id)
         else:

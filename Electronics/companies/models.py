@@ -23,15 +23,11 @@ class Company(models.Model):
     product_id = models.ManyToManyField(
         "products.Product", verbose_name="Products ID", blank=True
     )
-    staff_id = models.ManyToManyField(
-        "companies_details.Staff", verbose_name="Staff", blank=True
-    )
+    staff_id = models.ManyToManyField("staff.Staff", verbose_name="Staff", blank=True)
     provider_id = models.ForeignKey(
         "self", on_delete=models.PROTECT, blank=True, null=True
     )
-    contact_id = models.OneToOneField(
-        "companies_details.Contacts", on_delete=models.CASCADE
-    )
+    contact_id = models.OneToOneField("contacts.Contacts", on_delete=models.CASCADE)
 
     def save_user(self, user):
         self.owner.add(user)

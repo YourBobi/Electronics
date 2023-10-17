@@ -23,7 +23,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "products",
-    "companies_details",
+    "staff",
+    "contacts",
     "companies",
     "electronics_api",
     #

@@ -5,7 +5,7 @@ from datetime import datetime
 from companies.models import Company
 from products.models import Product
 
-from companies_details.models import Mail, Contacts, Address
+from contacts.models import Mail, Contacts, Address
 
 
 class MailSerializer(serializers.ModelSerializer):

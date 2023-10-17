@@ -1,5 +1,5 @@
 from django.contrib.admin import SimpleListFilter
-from companies_details.models import Address
+from contacts.models import Address
 
 
 class ContactsCityFilter(SimpleListFilter):
