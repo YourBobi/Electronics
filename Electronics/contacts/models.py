@@ -12,6 +12,21 @@ class Address(models.Model):
     def __str__(self):
         return f"{self.id}) {self.country}, {self.city}, {self.street}, {self.house_number}"
 
+    @staticmethod
+    def _fill__test_objects(count=100, locale="en"):
+        from mimesis import Generic
+
+        generic = Generic(locale=locale)
+        for _ in range(count):
+            address = Address(
+                country_code=generic.address.country_code(),
+                country=generic.address.country(),
+                city=generic.address.city(),
+                street=generic.address.street_name(),
+                house_number=generic.address.street_number(maximum=100),
+            )
+            address.save()
+
     class Meta:
         verbose_name = "Address"
         verbose_name_plural = "Addresses"
@@ -23,6 +38,15 @@ class Mail(models.Model):
 
     def __str__(self):
         return f"{self.mail}"
+
+    @staticmethod
+    def _fill__test_objects(count=100, locale="en"):
+        from mimesis import Generic
+
+        generic = Generic(locale=locale)
+        for _ in range(count):
+            email = Mail(mail=generic.person.email())
+            email.save()
 
     class Meta:
         verbose_name = "Mail"
@@ -40,6 +64,18 @@ class Contacts(models.Model):
 
     def __str__(self):
         return f'<"address": "{self.address_id }", "mail": "{self.mail_id.mail}">'
+
+    @staticmethod
+    def _fill__test_objects(count=100, locale="en"):
+        import random
+
+        mails = Mail.objects.all()
+        addresses = Address.objects.all()
+        for _ in range(count):
+            contact = Contacts(
+                mail_id=random.choice(mails), address_id=random.choice(addresses)
+            )
+            contact.save()
 
     class Meta:
         verbose_name = "Contacts"

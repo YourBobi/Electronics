@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "redis",
     "rest_framework_simplejwt",
     "drf_yasg",
+    "mimesis",
     #
     "django.contrib.admin",
     "django.contrib.auth",

@@ -17,6 +17,7 @@ qrcode = "*"
 pillow = "*"
 djangorestframework-simplejwt = "*"
 drf-yasg = "*"
+mimesis = "*"
 
 [dev-packages]
 
