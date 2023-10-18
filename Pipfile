@@ -18,6 +18,7 @@ pillow = "*"
 djangorestframework-simplejwt = "*"
 drf-yasg = "*"
 mimesis = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
