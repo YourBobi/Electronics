@@ -1,0 +1,27 @@
+version: '3'
+services:
+  electronics-app:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Electronics:/Electronics
+    environment:
+      - DB_HOST=database
+      - DB_NAME=electronics
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+
+    depends_on:
+      - database
+  
+  database:
+    image: postgres:16-alpine3.18
+    environment:
+      - POSTGRES_DB=electronics
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
