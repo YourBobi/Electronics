@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
   web-app:
     build:
@@ -55,5 +55,10 @@ services:
       context: .
     entrypoint: celery
     command: -A Electronics beat --loglevel=info
+
     volumes:
       - ./Electronics:/Electronics
+
+    depends_on:
+      - worker
+      - redis

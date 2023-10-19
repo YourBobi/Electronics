@@ -11,8 +11,3 @@ RUN apk add postgresql-client build-base postgresql-dev
 RUN python -m pip install --upgrade pip
 
 RUN pip install pipenv && pipenv lock && pipenv install --dev --system --deploy
-
-RUN adduser --disabled-password electronics-user
-
-
-USER electronics-user
