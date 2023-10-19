@@ -1,6 +1,6 @@
 version: '3'
 services:
-  electronics-app:
+  web-app:
     build:
       context: .
     ports:
@@ -18,10 +18,42 @@ services:
 
     depends_on:
       - database
-  
+
   database:
     image: postgres:16-alpine3.18
     environment:
       - POSTGRES_DB=electronics
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+
+  redis:
+    image: redis:7.0-alpine
+    hostname: redis
+
+  worker:
+    build:
+      context: .
+    hostname: worker
+    entrypoint: celery
+    command: -A Electronics worker --loglevel=info
+    volumes:
+      - ./Electronics:/Electronics
+
+    environment:
+      - DB_HOST=database
+      - DB_NAME=electronics
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+
+    links:
+      - redis
+    depends_on:
+      - redis
+
+  celery_beat:
+    build:
+      context: .
+    entrypoint: celery
+    command: -A Electronics beat --loglevel=info
+    volumes:
+      - ./Electronics:/Electronics
