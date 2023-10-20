@@ -11,6 +11,17 @@ class Staff(models.Model):
 
     @staticmethod
     def _fill__test_objects(count=100, locale="en"):
+        """Метод для заполнения бд.
+
+        С помощью библиотеки mimesis БД заполняется случайными данными.
+
+        Parameters
+        ----------
+        locale : str
+            Язык для передаваемых данных
+        count : int
+            Количество записей в БД
+        """
         from mimesis import Generic
 
         generic = Generic(locale=locale)

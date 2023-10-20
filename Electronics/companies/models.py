@@ -37,6 +37,15 @@ class Company(models.Model):
 
     @staticmethod
     def _fill__test_objects(locale="en"):
+        """Метод для заполнения бд.
+
+        С помощью библиотеки mimesis БД заполняется случайными данными.
+
+        Parameters
+        ----------
+        locale : str
+            Язык для передаваемых данных
+        """
         from mimesis import Generic
         import random
         from products.models import Product

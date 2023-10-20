@@ -10,6 +10,8 @@ urlpatterns = [
     path("electronics_api/", include("electronics_api.urls")),
 ]
 
+# Подключение swagger
+
 schema_view = get_schema_view(
     openapi.Info(
         title="Snippets API",

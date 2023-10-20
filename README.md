@@ -24,6 +24,14 @@
 Команды для установки:
 ```bash
 $ git clone https://github.com/YourBobi/SupportTask.git
+```
+После клонирования директория создайте .env файл в корневой папке проекта Electronics. После заполните следующие поля:
+
+![img.png](png/img3.png)
+
+Запустите докер:
+
+```bash
 $ docker-compose build
 $ docker-compose up
 ```
@@ -93,7 +101,7 @@ $ docker-compose run --rm web-app sh -c "python manage.py fill_companies"
     - Валидация данных реализована в сериализаторах в файле ./electronics_api/serializers.
     - Пользователи могут получать данные с помощью JWT токенов. Использовал simple_jwt. Проверить его работу можно с помощью swagger введя "Bearer {API_KEY}" в поле авторизации.
    Для того, чтобы пользователь получил данные только о своих объектах, переопределил queryset в view.py/
-   ![img.png](png1/img.png)
+   ![img.png](png/img2.png)
     - Кнопку описал в методе copy_email() в ./companies/admin.py
        ```python
         def copy_email(self, obj):
