@@ -34,6 +34,7 @@ def api_root(request, format=None):
             },
         }
     )
+    # Если суперюзер, то отображается ссылка на users
     if request.user.is_superuser:
         response.data["users"] = reverse("user-list", request=request, format=format)
     return response
@@ -54,6 +55,7 @@ class CompanyViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["get"], url_path="get_qr")
     def get_get_gr(self, request, pk=None):
+        """Отправка QR кода"""
         send_company_qr_email.delay(pk, request.user.email)
         return HttpResponse("Message send")
 

@@ -74,6 +74,7 @@ class ProductSerializer(serializers.ModelSerializer):
     )
 
     def validate_date(self, date):
+        """Проверка введенной даты перед сохранением"""
         if date > datetime.now().date():
             raise serializers.ValidationError(
                 "Дата продукта не должна превышать сегодняшний день"

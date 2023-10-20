@@ -24,18 +24,7 @@ class CompanyAdmin(admin.ModelAdmin):
     actions = ["clear_arrears"]
 
     def view_provider_links(self, obj):
-        """Отображение ссылки на поставщика.
-
-        Parameters
-        ----------
-        obj : Company()
-            Объект класса Company()
-
-        Returns
-        -------
-        format_html:
-            HTML string
-        """
+        """Отображение ссылки на поставщика."""
         if obj.provider_id:
             url = reverse(
                 "admin:{}_{}_change".format(obj._meta.app_label, obj._meta.model_name),
@@ -50,16 +39,6 @@ class CompanyAdmin(admin.ModelAdmin):
 
     def view_company_city(self, obj):
         """Отображение города компании.
-
-        Parameters
-        ----------
-        obj : Company()
-            Объект класса Company()
-
-        Returns
-        -------
-        city: str
-            Название города
         """
         if obj.contact_id:
             return obj.contact_id.address_id.city
@@ -67,14 +46,7 @@ class CompanyAdmin(admin.ModelAdmin):
     @admin.action(description="Clear arrears")
     def clear_arrears(self, request, queryset):
         """Очищение задолженности.
-
-        Экшен отчищает задолженность у выбранных компаний. Если выбрано
-        больше 20 компаний, очищение происходит асинхронно.
-
-        Parameters
-        ----------
-        queryset : Company()
-            queryset класса Company()
+        Экшен отчищает задолженность у выбранных компаний. Если выбрано больше 20 компаний, очищение происходит асинхронно.
         """
         if len(queryset) > 20:
             for company in queryset:
@@ -93,19 +65,7 @@ class CompanyAdmin(admin.ModelAdmin):
 
     def copy_email(self, obj):
         """Копировать email.
-
-        Копирование происходит в буфер обмена с помощью прописанной js команды
-        в onclick.
-
-        Parameters
-        ----------
-        obj : Company()
-            объект класса Company()
-
-        Returns
-        -------
-        format_html:
-            HTML string
+        Копирование происходит в буфер обмена с помощью прописанной js команды в onclick.
         """
         return format_html(
             "<a class=\"button\" onclick=\"navigator.clipboard.writeText('{0}');alert('Скопировано');\">{0}</a>",
