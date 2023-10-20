@@ -1,9 +1,10 @@
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, permissions
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from django.contrib.auth.models import User
+from django.http import HttpResponse
+from django_filters.rest_framework import DjangoFilterBackend
 
 from companies.models import Company
 from products.models import Product
@@ -13,6 +14,7 @@ from electronics_api.serializers import (
     ProductSerializer,
 )
 from .custom_filters import CompanyFilter
+from .tasks import send_company_qr_email
 
 
 @api_view(["GET"])
@@ -21,6 +23,15 @@ def api_root(request, format=None):
         {
             "companies": reverse("company-list", request=request, format=format),
             "products": reverse("product-list", request=request, format=format),
+            "token urls": {
+                "token_obtain_pair": reverse(
+                    "token_obtain_pair", request=request, format=format
+                ),
+                "token_verify": reverse("token_verify", request=request, format=format),
+                "token_refresh": reverse(
+                    "token_refresh", request=request, format=format
+                ),
+            },
         }
     )
     if request.user.is_superuser:
@@ -40,6 +51,11 @@ class CompanyViewSet(viewsets.ModelViewSet):
             if self.request.user.is_superuser
             else Company.objects.all().filter(owner=self.request.user).order_by("id")
         )
+
+    @action(detail=True, methods=["get"], url_path="get_qr")
+    def get_get_gr(self, request, pk=None):
+        send_company_qr_email.delay(pk, request.user.email)
+        return HttpResponse("Message send")
 
 
 @permission_classes([permissions.IsAuthenticated])

@@ -1,5 +1,5 @@
 from django.contrib.admin import SimpleListFilter
-from companies_details.models import Address
+from contacts.models import Address
 
 
 class ContactsCityFilter(SimpleListFilter):
@@ -11,20 +11,38 @@ class ContactsCityFilter(SimpleListFilter):
     parameter_name = "name"
 
     def lookups(self, request, model_admin):
+        """Определение фильтра.
+
+        В качестве параметра выводятся все существующие города.
+
+        Returns
+        -------
+        city_set: set
+            Множество городов.
+        """
         city_set = set(
             (address_object.city, address_object.city)
             for address_object in Address.objects.all()
         )
-        # city_set.add(("-", "-"))
         return city_set
 
     def queryset(self, request, queryset):
+        """Фильтр для queryset.
+
+        Сравниваем есть ли у объекта выбранный город.
+
+        Parameters
+        ----------
+        queryset : Company()
+            queryset класса Company()
+
+        Returns
+        -------
+        queryset:
+            queryset
+        """
         if not self.value():
             return queryset
-        # elif self.value() == "-":
-        #     return queryset.filter(
-        #         pk__in=[el.id for el in queryset if not el.contact_id]
-        #     )
         else:
             return queryset.filter(
                 pk__in=[

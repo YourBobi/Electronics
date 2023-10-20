@@ -1,0 +1,64 @@
+version: '2'
+services:
+  web-app:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Electronics:/Electronics
+    environment:
+      - DB_HOST=database
+      - DB_NAME=electronics
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+
+    depends_on:
+      - database
+
+  database:
+    image: postgres:16-alpine3.18
+    environment:
+      - POSTGRES_DB=electronics
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  redis:
+    image: redis:7.0-alpine
+    hostname: redis
+
+  worker:
+    build:
+      context: .
+    hostname: worker
+    entrypoint: celery
+    command: -A Electronics worker --loglevel=info
+    volumes:
+      - ./Electronics:/Electronics
+
+    environment:
+      - DB_HOST=database
+      - DB_NAME=electronics
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+
+    links:
+      - redis
+    depends_on:
+      - redis
+
+  celery_beat:
+    build:
+      context: .
+    entrypoint: celery
+    command: -A Electronics beat --loglevel=info
+
+    volumes:
+      - ./Electronics:/Electronics
+
+    depends_on:
+      - worker
+      - redis

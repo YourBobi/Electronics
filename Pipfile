@@ -10,6 +10,15 @@ django-money = "*"
 django-countries = "*"
 djangorestframework = "*"
 django-filter = "*"
+celery = "*"
+redis = "*"
+async-timeout = "*"
+qrcode = "*"
+pillow = "*"
+djangorestframework-simplejwt = "*"
+drf-yasg = "*"
+mimesis = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
